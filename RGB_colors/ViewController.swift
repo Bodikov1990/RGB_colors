@@ -20,11 +20,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        rgbColorsView.layer.cornerRadius = 10
         
         redLabel.font = redLabel.font.withSize(20)
         redLabel.textAlignment = .left
-        
         
         greenLabel.font = greenLabel.font.withSize(20)
         greenLabel.textAlignment = .left
@@ -32,49 +31,35 @@ class ViewController: UIViewController {
         blueLabel.font = blueLabel.font.withSize(20)
         blueLabel.textAlignment = .left
         
-        
-        
-    }
-    
-    override func viewWillLayoutSubviews() {
-        redSlider.value = 1
+        redSlider.value = 0.3
         redSlider.minimumValue = 0
         redSlider.maximumValue = 1
         redSlider.minimumTrackTintColor = .red
-        redSlider.minimumTrackTintColor = .green
         redSlider.thumbTintColor = .red
         
-        greenSlider.value = 1
+        greenSlider.value = 0.5
         greenSlider.minimumValue = 0
         greenSlider.maximumValue = 1
         greenSlider.minimumTrackTintColor = .green
-        greenSlider.maximumTrackTintColor = .blue
         greenSlider.thumbTintColor = .green
         
-        blueSlider.value = 1
+        blueSlider.value = 0.8
         blueSlider.minimumValue = 0
         blueSlider.maximumValue = 1
         blueSlider.minimumTrackTintColor = .blue
-        blueSlider.maximumTrackTintColor = .red
         blueSlider.thumbTintColor = .blue
         
     }
-
-    @IBAction func redSliderAction() {
-        redLabel.text = String(redSlider.value)
-//        let sliderValue = CGFloat(redSlider.value)
-//        rgbColorsView.backgroundColor = .systemRed.withAlphaComponent(sliderValue)
-    }
-    @IBAction func greenSliderAction() {
-        greenLabel.text = String(greenSlider.value)
-//        let sliderValue = CGFloat(greenSlider.value)
-//        rgbColorsView.backgroundColor = .green.withAlphaComponent(sliderValue)
-    }
-    @IBAction func blueSliderAction() {
-        blueLabel.text = String(blueSlider.value)
-//        let sliderValue = CGFloat(blueSlider.value)
-//        rgbColorsView.backgroundColor = .blue.withAlphaComponent(sliderValue)
-    }
     
+    @IBAction func getRGBcolors() {
+        redLabel.text = String(round(redSlider.value * 100) / 100)
+        greenLabel.text = String(round(greenSlider.value * 100) / 100)
+        blueLabel.text = String(round(blueSlider.value * 100) / 100)
+        let red = CGFloat(redSlider.value)
+        let green = CGFloat(greenSlider.value)
+        let blue = CGFloat(blueSlider.value)
+        
+        rgbColorsView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+    }
 }
 
