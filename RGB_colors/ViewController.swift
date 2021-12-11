@@ -32,29 +32,27 @@ class ViewController: UIViewController {
         blueLabel.textAlignment = .left
         
         redSlider.value = 0.3
-        redSlider.minimumValue = 0
-        redSlider.maximumValue = 1
         redSlider.minimumTrackTintColor = .red
         redSlider.thumbTintColor = .red
         
         greenSlider.value = 0.5
-        greenSlider.minimumValue = 0
-        greenSlider.maximumValue = 1
         greenSlider.minimumTrackTintColor = .green
         greenSlider.thumbTintColor = .green
         
         blueSlider.value = 0.8
-        blueSlider.minimumValue = 0
-        blueSlider.maximumValue = 1
         blueSlider.minimumTrackTintColor = .blue
         blueSlider.thumbTintColor = .blue
+        
+        redLabel.text = String(redSlider.value)
+        greenLabel.text = String(greenSlider.value)
+        blueLabel.text = String(blueSlider.value)
         
     }
     
     @IBAction func getRGBcolors() {
-        redLabel.text = String(round(redSlider.value * 100) / 100)
-        greenLabel.text = String(round(greenSlider.value * 100) / 100)
-        blueLabel.text = String(round(blueSlider.value * 100) / 100)
+        redLabel.text = String(round(redSlider.value * 10) / 10)
+        greenLabel.text = String(round(greenSlider.value * 10) / 10)
+        blueLabel.text = String(round(blueSlider.value * 10) / 10)
         let red = CGFloat(redSlider.value)
         let green = CGFloat(greenSlider.value)
         let blue = CGFloat(blueSlider.value)
