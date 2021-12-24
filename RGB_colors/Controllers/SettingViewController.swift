@@ -28,7 +28,7 @@ class SettingViewController: UIViewController {
         rgbColorsView.layer.shadowOpacity = 4
         rgbColorsView.layer.shadowRadius = 10
         rgbColorsView.layer.shadowOffset = CGSize(width: 5, height: 5)
- 
+        
         
         redSlider.minimumTrackTintColor = .red
         greenSlider.minimumTrackTintColor = .green
@@ -37,6 +37,7 @@ class SettingViewController: UIViewController {
         setValueLabel(for: redLabel, greenLabel, blueLabel)
         setValueTextField()
         setLabelWithTF(for: redColorTF, greenColorTF, blueColorTF)
+        addDoneButtonTo(redColorTF)
     }
     
     @IBAction func rgbColorAction(_ sender: UISlider) {
@@ -109,6 +110,8 @@ class SettingViewController: UIViewController {
     }
 }
 
+//MARK: - TextFieldDelegate
+
 extension SettingViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -135,13 +138,37 @@ extension SettingViewController: UITextFieldDelegate {
     }
 }
 
+//MARK: - Alert and ToolBar
+
 extension SettingViewController {
     
+    private func addDoneButtonTo(_ textField: UITextField) {
+        
+        let numberToolbar = UIToolbar()
+        textField.inputAccessoryView = numberToolbar
+        numberToolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title:"Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(tapDone))
+        
+        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+ 
+        numberToolbar.items = [flexBarButton, doneButton]
+        
+    }
+    
+    @objc private func tapDone() {
+        view.endEditing(true)
+    }
     
     private func showAlert(title: String, message: String) {
-                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default)
-                alert.addAction(okAction)
-                present(alert, animated: true)
-            }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
