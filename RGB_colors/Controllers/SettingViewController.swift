@@ -29,25 +29,36 @@ class SettingViewController: UIViewController {
         rgbColorsView.layer.shadowRadius = 10
         rgbColorsView.layer.shadowOffset = CGSize(width: 5, height: 5)
  
+        
         redSlider.minimumTrackTintColor = .red
         greenSlider.minimumTrackTintColor = .green
         
         setColor()
         setValueLabel(for: redLabel, greenLabel, blueLabel)
         setValueTextField()
+        setLabelWithTF(for: redColorTF, greenColorTF, blueColorTF)
     }
     
     @IBAction func rgbColorAction(_ sender: UISlider) {
         setColor()
         setValueTextField()
         
+        
         switch sender {
-        case redSlider: setValueLabel(for: redLabel)
-        case greenSlider: setValueLabel(for: greenLabel)
-        default: setValueLabel(for: blueLabel)
+        case redSlider:
+            setValueLabel(for: redLabel)
+        case greenSlider:
+            setValueLabel(for: greenLabel)
+        default:
+            setValueLabel(for: blueLabel)
         }
     }
     
+    @IBAction func doneAction() {
+        dismiss(animated: true) {
+            
+        }
+    }
     
     private func setColor() {
         let red = CGFloat(redSlider.value)
@@ -76,25 +87,25 @@ class SettingViewController: UIViewController {
         }
     }
     
+    private func setLabelWithTF(for textFields: UITextField...){
+        textFields.forEach { textField in
+            switch textField {
+            case redColorTF: redLabel.text = textField.text
+            case greenColorTF: greenLabel.text = textField.text
+            default: blueLabel.text = textField.text
+            }
+        }
+    }
+    
     private func setValueTextField() {
         redColorTF.text = string(from: redSlider)
         greenColorTF.text = string(from: greenSlider)
         blueColorTF.text = string(from: blueSlider)
     }
     
-//    private func testValueTF(for textFields: UITextField...){
-//        textFields.forEach { textField in
-//            switch textField {
-//            case redColorTF: return
-//
-//            default:
-//                break
-//            }
-//        }
-//    }
     
     private func string(from slider: UISlider) -> String {
-        String(format: "%.1f", slider.value)
+        String(format: "%.2f", slider.value)
     }
 }
 
@@ -105,6 +116,7 @@ extension SettingViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
         guard let text = textField.text else { return }
         
         if let currentValue = Float(text) {
@@ -116,7 +128,7 @@ extension SettingViewController: UITextFieldDelegate {
             default: break
             }
             setColor()
-            setValueTextField()
+            setLabelWithTF(for: redColorTF, greenColorTF, blueColorTF)
         } else {
             showAlert(title: "Wrong format!", message: "Please enter correct format")
         }
@@ -124,6 +136,8 @@ extension SettingViewController: UITextFieldDelegate {
 }
 
 extension SettingViewController {
+    
+    
     private func showAlert(title: String, message: String) {
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default)
