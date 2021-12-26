@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class SettingViewController: UIViewController {
     @IBOutlet weak var rgbColorsView: UIView!
     
@@ -22,8 +23,14 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var greenColorTF: UITextField!
     @IBOutlet weak var blueColorTF: UITextField!
     
+    var delegate: SettingViewControllerDelegate!
+    var backgroundForRGB: UIColor!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let forBackground = CIColor(color: backgroundForRGB)
+        rgbColorsView.backgroundColor = UIColor(red: forBackground.red, green: forBackground.green, blue: forBackground.blue, alpha: 1)
+        
         rgbColorsView.layer.cornerRadius = 10
         rgbColorsView.layer.shadowColor = UIColor.black.cgColor
         rgbColorsView.layer.shadowOpacity = 4
@@ -34,7 +41,7 @@ class SettingViewController: UIViewController {
         redSlider.minimumTrackTintColor = .red
         greenSlider.minimumTrackTintColor = .green
         
-        setColor()
+        getbackgrounColors()
         setValueTextField()
         setValueLabel(for: redLabel, greenLabel, blueLabel)
         setLabelWithTF(for: redColorTF, greenColorTF, blueColorTF)
@@ -44,7 +51,6 @@ class SettingViewController: UIViewController {
     @IBAction func rgbColorAction(_ sender: UISlider) {
         setColor()
         setValueTextField()
-        
         
         switch sender {
         case redSlider:
@@ -57,9 +63,16 @@ class SettingViewController: UIViewController {
     }
     
     @IBAction func doneAction() {
-        dismiss(animated: true) {
-            
-        }
+        view.endEditing(true)
+        delegate.getColor(for: rgbColorsView.backgroundColor ?? .brown)
+        dismiss(animated: true) { }
+    }
+    
+    private func getbackgrounColors() {
+        let forBackground = CIColor(color: backgroundForRGB)
+        redSlider.value = Float(forBackground.red)
+        greenSlider.value = Float(forBackground.green)
+        blueSlider.value = Float(forBackground.blue)
     }
     
     private func setColor() {
