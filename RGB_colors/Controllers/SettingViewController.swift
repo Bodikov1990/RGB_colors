@@ -76,13 +76,9 @@ class SettingViewController: UIViewController {
     }
     
     private func setColor() {
-        let red = CGFloat(redSlider.value)
-        let green = CGFloat(greenSlider.value)
-        let blue = CGFloat(blueSlider.value)
-        
-        rgbColorsView.backgroundColor = UIColor(red: red,
-                                                green: green,
-                                                blue: blue,
+        rgbColorsView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
+                                                green: CGFloat(greenSlider.value),
+                                                blue: CGFloat(blueSlider.value),
                                                 alpha: 1)
     }
     
