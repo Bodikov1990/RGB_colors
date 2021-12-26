@@ -9,6 +9,7 @@ import UIKit
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var rgbColorsView: UIView!
+    
     @IBOutlet weak var redLabel: UILabel!
     @IBOutlet weak var greenLabel: UILabel!
     @IBOutlet weak var blueLabel: UILabel!
@@ -34,10 +35,10 @@ class SettingViewController: UIViewController {
         greenSlider.minimumTrackTintColor = .green
         
         setColor()
-        setValueLabel(for: redLabel, greenLabel, blueLabel)
         setValueTextField()
+        setValueLabel(for: redLabel, greenLabel, blueLabel)
         setLabelWithTF(for: redColorTF, greenColorTF, blueColorTF)
-        addDoneButtonTo(redColorTF)
+        addDoneButtonTo(redColorTF, greenColorTF, blueColorTF)
     }
     
     @IBAction func rgbColorAction(_ sender: UISlider) {
@@ -77,13 +78,11 @@ class SettingViewController: UIViewController {
             switch label {
             case redLabel:
                 label.text = string(from: redSlider)
-                label.text = redColorTF.text
             case greenLabel:
                 label.text = string(from: greenSlider)
-                label.text = greenColorTF.text
             default:
                 label.text = string(from: blueSlider)
-                label.text = blueColorTF.text
+
             }
         }
     }
@@ -142,11 +141,17 @@ extension SettingViewController: UITextFieldDelegate {
 
 extension SettingViewController {
     
-    private func addDoneButtonTo(_ textField: UITextField) {
+    private func addDoneButtonTo(_ textFields: UITextField...) {
         
         let numberToolbar = UIToolbar()
-        textField.inputAccessoryView = numberToolbar
         numberToolbar.sizeToFit()
+        textFields.forEach { textField in
+            switch textField {
+            case redColorTF: textField.inputAccessoryView = numberToolbar
+            case greenColorTF: textField.inputAccessoryView = numberToolbar
+            default: textField.inputAccessoryView = numberToolbar
+            }
+        }
         
         let doneButton = UIBarButtonItem(title:"Done",
                                          style: .done,
